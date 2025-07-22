@@ -1,0 +1,16 @@
+[NokiaG10]
+host=192.168.100.51
+scheme=ftp
+port=9999
+
+[Samsung A54]
+host=192.168.100.54
+user=admin
+scheme=ftp
+port=2222
+
+[work]
+host=192.168.100.234
+user=poltora
+scheme=ftp
+port=21

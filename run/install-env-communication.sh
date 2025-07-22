@@ -1,3 +1,11 @@
+read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
+
+if ! [[ "$answer" =~ ^[YyДд] ]]; then
+    echo "Вы выбрали НЕТ. Выход..."
+    exit 1
+fi
+echo "Вы выбрали ДА. Выполняем действие..."
+
 # Communication environment
 
 #sudo add-apt-repository universe

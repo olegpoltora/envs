@@ -1,0 +1,4 @@
+ENTRY "/mnt/poltora" URL "/mnt/poltora"
+ENTRY "/media/poltora" URL "/media/poltora"
+ENTRY "work:/mnt/poltora" URL "/ftp://poltora@192.168.100.249/mnt/poltora"
+ENTRY "work:/media/poltora" URL "/ftp://poltora@192.168.100.249/media/poltora"

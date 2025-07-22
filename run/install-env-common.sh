@@ -1,3 +1,11 @@
+read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
+
+if ! [[ "$answer" =~ ^[YyДд] ]]; then
+    echo "Вы выбрали НЕТ. Выход..."
+    return
+fi
+echo "Вы выбрали ДА. Выполняем действие..."
+
 # Common environment
 
 #sudo add-apt-repository universe
@@ -49,7 +57,7 @@ sudo apt-get install typora -y
 
 #sudo apt-get install libreoffice-impress -y
 
-sudo apt install -y gedit
+#sudo apt install -y gedit
 
 ## ~~freemind~~
 
@@ -75,16 +83,16 @@ sudo apt install imagemagick -y
 
 # Configuration
 
-read -p "Now setting configuration…(Crtl-C or ENTER)"
+#read -p "Now setting configuration…(Crtl-C or ENTER)"
 
 ## Common utils
 
-read -p "Common utils…(Crtl-C or ENTER)"
+#read -p "Common utils…(Crtl-C or ENTER)"
 
 echo "export PATH=\$PATH:/mnt/poltora/utils/" >> ~/.bashrc
 echo "export PATH=\$PATH:/mnt/poltora/utils/" >> ~/.profile
 
-## Zoom desktop
+## ~~Zoom desktop~~
 
-xfconf-query --set false --channel xfwm4 --property /general/zoom_desktop
+#xfconf-query --set false --channel xfwm4 --property /general/zoom_desktop
 
