@@ -7,7 +7,7 @@ ColorSelectionUseDefault=FALSE
 ColorBold=#ffffff
 ColorBoldUseDefault=FALSE
 ColorPalette=#000000;#aa0000;#44aa44;#aa5500;#0039aa;#aa22aa;#1a92aa;#aaaaaa;#777777;#ff8787;#4ce64c;#ded82c;#295fcc;#cc58cc;#4ccce6;#ffffff
-FontName=DejaVu Sans Mono 12
+FontName=DejaVu Sans Mono 11
 MiscAlwaysShowTabs=FALSE
 MiscBell=FALSE
 MiscBellUrgent=FALSE
@@ -36,4 +36,4 @@ MiscNewTabAdjacent=FALSE
 MiscSearchDialogOpacity=100
 MiscShowUnsafePasteDialog=TRUE
 TabActivityColor=#0f4999
-
+ScrollingOnOutput=FALSE
