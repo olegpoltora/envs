@@ -57,7 +57,7 @@ safeDownload(){
 
   # Загружаем во временный файл
   mkdir -p $savePath
-  echo wget -q "$remoteFile" -O "$tempFile"
+  #echo wget -q "$remoteFile" -O "$tempFile"
   wget -q "$remoteFile" -O "$tempFile" || {
       echo "Ошибка загрузки $remoteFile!"
       rm -f "$tempFile"
