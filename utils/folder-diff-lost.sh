@@ -1,0 +1,1 @@
+diff --brief --recursive $1 $2 | grep "Only in $1"

@@ -1,0 +1,1 @@
+iconv --from-code=WINDOWS-1251 --to-code=UTF8 --output=$2 $1
