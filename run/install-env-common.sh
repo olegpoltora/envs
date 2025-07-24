@@ -116,6 +116,11 @@ sudo apt install -y graphicsmagick-imagemagick-compat
 
 #sudo apt install imagemagick -y 
 
+
+## Firefox force update
+
+sudo snap refresh firefox
+
 # Configuration
 
 #read -p "Now setting configuration…(Crtl-C or ENTER)"
