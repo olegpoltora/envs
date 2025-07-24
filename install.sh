@@ -59,12 +59,11 @@ safeDownload(){
   tempFile="${resultFile}.tmp"
 
   # Загружаем во временный файл
-  #echo "mkdir -p $resultFile"
-  #mkdir -p $resultFile
-  #echo rm $resultFile
-  #rm $resultFile
+  dirPath=$(dirname "$tempFile")
+#  echo mkdir -p $dirPath
+  mkdir -p "$dirPath"
   wget -q "$remoteFile" -O "$tempFile" || {
-      echo "Ошибка загрузки $remoteFile! : echo wget -q "$remoteFile" -O "$tempFile""
+      echo "Ошибка загрузки $remoteFile как $tempFile !"
       rm -f "$tempFile"
       exit 1
   }
