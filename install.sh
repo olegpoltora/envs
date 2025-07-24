@@ -98,7 +98,7 @@ runConfigLocation="run-config"
 remoteConfig="config"
 profileLocation="run"
 
-read -p "Выберите действие (common/my/dev/work/media/communication): " action
+read -p "Выберите действие (common/my/media/dev/work): " action
 
 case "$action" in
 common)
@@ -126,9 +126,21 @@ common)
 
   backupAndSafeDownload $localConfig $remoteConfig "mc/hotlist"
 ;;
-communication)
-  echo "Communication ENV..."
-  getIfAbsentAndRun "$repoUrl" $profileLocation "install-env-communication.sh"
+my)
+  echo "My ENV..."
+  getIfAbsentAndRun "$repoUrl" $profileLocation "install-env-my.sh"
+;;
+media)
+  echo "Media ENV..."
+  getIfAbsentAndRun "$repoUrl" $profileLocation "install-env-media.sh"
+;;
+dev)
+  echo "Dev ENV..."
+  getIfAbsentAndRun "$repoUrl" $profileLocation "install-env-dev.sh"
+;;
+work)
+  echo "Work ENV..."
+  getIfAbsentAndRun "$repoUrl" $profileLocation "install-env-work.sh"
 ;;
 *)
   echo "Неизвестная команда: $action"
