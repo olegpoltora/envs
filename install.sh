@@ -38,11 +38,13 @@ backup(){
 
   currentDate=$(date +"%Y-%m-%d %T")
 
-  echo "Бекап $resultFile..."
-  cp -rf "$resultFile" "${resultFile}".backup-"${currentDate}" || {
-    echo "Ошибка бекапа $fileName!"
-    exit 1
-  }
+  if [ -f "$resultFile" ]; then
+    echo "Бекап $resultFile..."
+    cp -rf "$resultFile" "${resultFile}".backup-"${currentDate}" || {
+      echo "Ошибка бекапа $fileName!"
+      exit 1
+    }
+  fi
 }
 
 safeDownload(){
@@ -57,10 +59,12 @@ safeDownload(){
   tempFile="${resultFile}.tmp"
 
   # Загружаем во временный файл
-  mkdir -p $savePath
-  #echo wget -q "$remoteFile" -O "$tempFile"
+  #echo "mkdir -p $resultFile"
+  #mkdir -p $resultFile
+  #echo rm $resultFile
+  #rm $resultFile
   wget -q "$remoteFile" -O "$tempFile" || {
-      echo "Ошибка загрузки $remoteFile!"
+      echo "Ошибка загрузки $remoteFile! : echo wget -q "$remoteFile" -O "$tempFile""
       rm -f "$tempFile"
       exit 1
   }
