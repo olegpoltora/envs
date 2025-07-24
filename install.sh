@@ -8,15 +8,16 @@ getIfAbsentAndRun() {
   local resultFile="./$remotePrefix/$fileName"
   local remoteFile="$repoUrl/$remotePrefix/$fileName"
 
-  if [ ! -f "$resultFile" ]; then
-    safeDownload "./$remotePrefix" "$remotePrefix" "$fileName"
-    chmod +x "./$resultFile" || {
-        echo "Ошибка изменения прав доступа!" >&2
-        exit 1
-    }
-  fi
+  #if [ ! -f "$resultFile" ]; then
+  safeDownload "./$remotePrefix" "$remotePrefix" "$fileName"
+  
+  chmod +x "./$resultFile" || {
+      echo "Ошибка изменения прав доступа!"
+      exit 1
+  }
+  #fi
   source "./$resultFile" || {
-      echo "Ошибка выполнения $resultFile!" >&2
+      echo "Ошибка выполнения $resultFile!"
       exit 1
   }
 }
