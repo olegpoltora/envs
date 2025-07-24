@@ -125,8 +125,6 @@ common)
   backupAndSafeDownload $localConfig $remoteConfig "gigolo/bookmarks"
 
   backupAndSafeDownload $localConfig $remoteConfig "mc/hotlist"
-
-  backupAndSafeDownload $localConfig $remoteConfig "transmission/settings.json"
 ;;
 my)
   echo "My ENV..."
@@ -135,6 +133,7 @@ my)
 media)
   echo "Media ENV..."
   getIfAbsentAndRun "$repoUrl" $profileLocation "install-env-media.sh"
+  backupAndSafeDownload $localConfig $remoteConfig "transmission/settings.json"
 ;;
 dev)
   echo "Dev ENV..."
