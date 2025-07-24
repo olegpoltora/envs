@@ -17,7 +17,7 @@ sudo apt-get install -y vsftpd
 
 ### Torrent
 
-sudo apt install -y qbittorrent
+#sudo apt install -y qbittorrent
 #sudo apt-get install -y qbittorrent
 
 #sudo apt-get install -y deluge
@@ -27,3 +27,9 @@ sudo apt install -y qbittorrent
 #sudo snap install vlc
 
 sudo apt install -y vlc
+
+### acestreamplayer
+
+#sudo apt install -y acestreamplayer
+
+snap install acestreamplayer
