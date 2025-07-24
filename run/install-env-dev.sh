@@ -148,13 +148,13 @@ sudo systemctl status confluent-schema-registry
 
 ## Intellij IDEA
 
-#sudo snap install intellij-idea-ultimate --classic
+sudo snap install intellij-idea-ultimate --classic
+
+#sudo snap revert intellij-idea-ultimate
 
 sudo snap refresh intellij-idea-ultimate --channel=2024.1/stable
 
-sudo snap refresh --hold intellij-idea-ultimate
-
-snap changes
+sudo snap refresh --hold=forever intellij-idea-ultimate
 
 ## Common soft
 
@@ -242,29 +242,29 @@ fi
 
 mountdevelopment
 
-##  ~~Maven~~
+##  Maven
 
-### ~~Перенос репозитория в /mnt~~
+### Перенос репозитория в /mnt
 
-#read -p "Maven repo in /mnt…(Crtl-C or ENTER)"
+read -p "Maven repo in /mnt…(Crtl-C or ENTER)"
 
-#ls -la /usr/share/maven/
+ls -la /usr/share/maven/
 
-#ls -la /etc/maven/
+ls -la /etc/maven/
 
-#cat /etc/maven/settings.xml 
+cat /etc/maven/settings.xml 
 
-#cp ~/.m2/settings.xml ~/.m2/settings.xml.back-$(date +"%Y-%m-%d-%H-%M-%S")
+cp ~/.m2/settings.xml ~/.m2/settings.xml.back-$(date +"%Y-%m-%d-%H-%M-%S")
 
-#cp /etc/maven/settings.xml ~/.m2/settings.xml
+cp /etc/maven/settings.xml ~/.m2/settings.xml
 
-#ls -l ~/.m2/ | grep settings
+ls -l ~/.m2/ | grep settings
 
-#mkdir -p /mnt/poltora/.m2/repository
+mkdir -p /mnt/poltora/.m2/repository
 
-#sed -i  's|<localRepository>/path/to/local/repo</localRepository>|--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--|' /home/poltora/.m2/settings.xml
+sed -i  's|<localRepository>/path/to/local/repo</localRepository>|--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--|' /home/poltora/.m2/settings.xml
 
-#du -hc --max-depth=0 /mnt/poltora/.m2/
+du -hc --max-depth=0 /mnt/poltora/.m2/
 
-#du -hc --max-depth=0 /home/poltora/.m2/
+du -hc --max-depth=0 /home/poltora/.m2/
 
