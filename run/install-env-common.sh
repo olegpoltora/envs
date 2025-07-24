@@ -4,6 +4,8 @@ if ! [[ "$answer" =~ ^[YyДд] ]]; then
     echo "Вы выбрали НЕТ. Выход..."
     return
 fi
+
+
 echo "Вы выбрали ДА. Выполняем действие..."
 
 # Common environment
@@ -13,7 +15,7 @@ sudo apt-get update
 
 ## ~~encfs (notification)~~
 
-#sudo apt-get install -y encfs
+#sudo apt-get install -y encfs 
 
 ## gocryptfs
 
@@ -112,7 +114,7 @@ sudo apt install -y graphicsmagick-imagemagick-compat
 
 ## ~~Imagemagick~~
 
-#sudo apt install imagemagick -y
+#sudo apt install imagemagick -y 
 
 # Configuration
 

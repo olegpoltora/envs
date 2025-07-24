@@ -1,3 +1,13 @@
+read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
+
+if ! [[ "$answer" =~ ^[YyДд] ]]; then
+    echo "Вы выбрали НЕТ. Выход..."
+    return
+fi
+
+
+echo "Вы выбрали ДА. Выполняем действие..."
+
 # Media environment
 
 #sudo add-apt-repository universe
@@ -17,7 +27,7 @@ sudo apt-get install -y vsftpd
 
 ### Torrent
 
-#sudo apt install -y qbittorrent
+sudo apt install -y qbittorrent
 #sudo apt-get install -y qbittorrent
 
 #sudo apt-get install -y deluge
@@ -27,9 +37,3 @@ sudo apt-get install -y vsftpd
 #sudo snap install vlc
 
 sudo apt install -y vlc
-
-### acestreamplayer
-
-#sudo apt install -y acestreamplayer
-
-snap install acestreamplayer
