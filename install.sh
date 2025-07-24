@@ -125,6 +125,8 @@ common)
   backupAndSafeDownload $localConfig $remoteConfig "gigolo/bookmarks"
 
   backupAndSafeDownload $localConfig $remoteConfig "mc/hotlist"
+
+  backupAndSafeDownload $localConfig $remoteConfig "transmission/settings.json"
 ;;
 my)
   echo "My ENV..."
