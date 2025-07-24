@@ -138,7 +138,7 @@ sudo chown poltora:poltora /mnt/poltora/
 mkdir /mnt/poltora/test
 echo "ls -la /mnt/poltora"
 ls -la /mnt/poltora
-read -p "…"
+#read -p "…"
 
 ## backup (waiting for devices for all pc…)
 
@@ -159,6 +159,6 @@ gocryptfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
 
 echo "ls -la /mnt/poltora/.priv"
 ls -la /mnt/poltora/.priv
-read -p "..."
+#read -p "..."
 
 
