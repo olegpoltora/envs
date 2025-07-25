@@ -67,10 +67,10 @@ sudo snap install acestreamplayer
 
 #sed -i  's|"preallocation": 1|"preallocation": 2|' /home/poltora/.config/transmission/settings.json
 
-if [ -f /home/poltora/.config/transmission/settings.json ]; then
-    sed -i  's|"queue-stalled-minutes": 30|"queue-stalled-minutes": 3|' /home/poltora/.config/transmission/settings.json || {
-        echo "Ошибка при выполнении!"
-    }
-fi
+#if [ -f /home/poltora/.config/transmission/settings.json ]; then
+#    sed -i  's|"queue-stalled-minutes": 30|"queue-stalled-minutes": 3|' /home/poltora/.config/transmission/settings.json || {
+#        echo "Ошибка при выполнении!"
+#    }
+#fi
 
 
