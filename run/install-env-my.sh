@@ -1,7 +1,7 @@
 # My environment
 
 #sudo add-apt-repository universe
-sudo apt-get update
+#sudo apt-get update
 
 ## ~~JRE~~
 
@@ -31,7 +31,7 @@ sudo chown poltora:poltora /mnt/backup/
 mkdir /mnt/backup/test
 echo "ls -la /mnt/backup"
 ls -la /mnt/backup
-read -p "…"
+#read -p "…"
 
 ## backup-priv
 
@@ -41,11 +41,4 @@ gocryptfs /mnt/backup/.priv-go.sec /backup/.priv
 
 echo "ls -la /mnt/backup/.priv"
 ls -la /mnt/backup/.priv
-read -p "..."
-
-
-
-
-
-
-
+#read -p "..."

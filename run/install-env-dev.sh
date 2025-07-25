@@ -1,7 +1,14 @@
+read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
+if ! [[ "$answer" =~ ^[YyДд] ]]; then
+    echo "Вы выбрали НЕТ. Выход..."
+    return
+fi
+echo "Вы выбрали ДА. Выполняем действие..."
+
 # Development environment
 
 #sudo add-apt-repository universe
-sudo apt-get update
+#sudo apt-get update
 
 ##  Maven
 
@@ -67,7 +74,7 @@ sudo apt-get install -y redis-server
 
 #chmod +x /mnt/poltora/Documents/utils/kafka-start.sh
 
-### Colfluent Kafka
+### Confluent Kafka
 
 wget -qO - https://packages.confluent.io/deb/7.5/archive.key | sudo apt-key add -
 
@@ -191,15 +198,12 @@ sudo systemctl status postgresql
 
 ## Dev util
 
-read -p "Dev utils…(Crtl-C or ENTER)"
+#read -p "Dev utils…(Crtl-C or ENTER)"
 
-#if [[ ":$PATH:" != *":/mnt/poltora/Documents/utils/:"* ]]; then PATH=${PATH}:/mnt/poltora/Documents/utils/; echo "export PATH=\$PATH:/mnt/poltora/Documents/utils/" >> ~/.bashrc; fi
+grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.bashrc || echo 'export PATH=$PATH:/mnt/poltora/Documents/utils/' >> ~/.bashrc
+grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.bashrc || echo 'export PATH=$PATH:/mnt/poltora/Documents/utils/' >> ~/.bashrc
 
-PATH=${PATH}:/mnt/poltora/Documents/utils/;
-echo "export PATH=\$PATH:/mnt/poltora/Documents/utils/" >> ~/.bashrc
-echo "export PATH=\$PATH:/mnt/poltora/Documents/utils/" >> ~/.profile
-
-tail -3 ~/.bashrc 
+#tail -3 ~/.bashrc
 
 ## inotify for idea
 

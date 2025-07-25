@@ -1,17 +1,7 @@
-#read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
-
-#if ! [[ "$answer" =~ ^[YyДд] ]]; then
-#    echo "Вы выбрали НЕТ. Выход..."
-#    return
-#fi
-
-
-#echo "Вы выбрали ДА. Выполняем действие..."
-
 # Common environment
 
 #sudo add-apt-repository universe
-sudo apt-get update
+#sudo apt-get update
 
 ## ~~encfs (notification)~~
 
@@ -133,8 +123,8 @@ sudo snap refresh firefox
 
 #read -p "Common utils…(Crtl-C or ENTER)"
 
-echo "export PATH=\$PATH:/mnt/poltora/utils/" >> ~/.bashrc
-echo "export PATH=\$PATH:/mnt/poltora/utils/" >> ~/.profile
+grep -qxF 'export PATH=$PATH:/mnt/poltora/utils/' ~/.bashrc || echo 'export PATH=$PATH:/mnt/poltora/utils/' >> ~/.bashrc
+grep -qxF 'export PATH=$PATH:/mnt/poltora/utils/' ~/.profile || echo 'export PATH=$PATH:/mnt/poltora/utils/' >> ~/.profile
 
 ## ~~Zoom desktop~~
 

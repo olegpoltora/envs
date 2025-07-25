@@ -1,7 +1,14 @@
+read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
+if ! [[ "$answer" =~ ^[YyДд] ]]; then
+    echo "Вы выбрали НЕТ. Выход..."
+    return
+fi
+echo "Вы выбрали ДА. Выполняем действие..."
+
 # Work environment
 
 #sudo add-apt-repository universe
-sudo apt-get update
+#sudo apt-get update
 
 ## curl
 
@@ -48,9 +55,10 @@ sudo apt install -y globalprotect-openconnect
 
 # Configuration
 
-read -p "Now setting configuration…(Crtl-C or ENTER)"
+#read -p "Now setting configuration…(Crtl-C or ENTER)"
 
 ## Dev util
 
-echo "export PATH=\$PATH:/mnt/poltora/Documents/utils/" >> ~/.bashrc
-echo "export PATH=\$PATH:/mnt/poltora/Documents/utils/" >> ~/.profile
+# shellcheck disable=SC2016
+grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.bashrc || echo 'export PATH=$PATH:/mnt/poltora/Documents/utils/' >> ~/.bashrc
+grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.profile || echo 'export PATH=$PATH:/mnt/poltora/Documents/utils/' >> ~/.profile

@@ -15,36 +15,11 @@ CURRENTDATE=`date +"%Y-%m-%d %T"`
 
 ## Common utils
 
-echo "export PATH=\$PATH:/mnt/poltora/utils/" >> ~/.bashrc
-echo "export PATH=\$PATH:/mnt/poltora/utils/" >> ~/.profile
 
 # Settings
 
 read -p "Used backup file path: $RUT... (Crtl-C or ENTER)"
 
-## back in time
-
-mkdir -p ~/.config/backintime/
-cp -rf ~/.config/backintime ~/.config/backintime.backup-"${CURRENTDATE}"
-cp -rf $RUT/../config ~/.config/backintime/config
-
-## xubuntu
-
-mkdir -p ~/.config/xfce4/
-cp -rf ~/.config/xfce4 ~/.config/xfce4.backup-"${CURRENTDATE}"
-cp -rf $RUT/home/poltora/.config/xfce4/* ~/.config/xfce4/
-
-## ftp client (gigolo)
-
-mkdir -p ~/.config/gigolo/
-cp -rf ~/.config/gigolo ~/.config/gigolo.backup-"${CURRENTDATE}"
-cp -rf $RUT/home/poltora/.config/gigolo/bookmarks ~/.config/gigolo/
-
-## midnight commander
-
-mkdir -p ~/.config/mc/
-cp -rf ~/.config/mc ~/.config/mc.backup-"${CURRENTDATE}"
-cp -rf $RUT/home/poltora/.config/mc/hotlist ~/.config/mc/
 
 echo export HISTCONTROL=ignoreboth:erasedups >> ~/.bashrc
 
@@ -61,10 +36,6 @@ cp -rf $RUT/home/poltora/.config/Typora/profile.data ~/.config/Typora/
 mkdir -p ~/.config/libreoffice/4/user
 cp -rf ~/.config/libreoffice/4/user ~/.config/libreoffice/4/user.backup-"${CURRENTDATE}"
 cp -rf $RUT/home/poltora/.config/libreoffice/4/user/registrymodifications.xcu ~/.config/libreoffice/4/user/registrymodifications.xcu 
-
-## convert jpg to pdf
-
-sudo sed -i  's|<policy domain="coder" rights="none" pattern="PDF" />|<!-- <policy domain="coder" rights="none" pattern="PDF"/> -->|' /etc/ImageMagick-6/policy.xml
 
 
 shopt -u nocaseglob # Unsets nocaseglob

@@ -1,7 +1,14 @@
+#read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
+#if ! [[ "$answer" =~ ^[YyДд] ]]; then
+#    echo "Вы выбрали НЕТ. Выход..."
+#    return
+#fi
+#echo "Вы выбрали ДА. Выполняем действие..."
+
 # Media environment
 
 #sudo add-apt-repository universe
-sudo apt-get update
+#sudo apt-get update
 
 ## System
 
