@@ -1,12 +1,12 @@
-read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
+#read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
 
-if ! [[ "$answer" =~ ^[YyДд] ]]; then
-    echo "Вы выбрали НЕТ. Выход..."
-    return
-fi
+#if ! [[ "$answer" =~ ^[YyДд] ]]; then
+#    echo "Вы выбрали НЕТ. Выход..."
+#    return
+#fi
 
 
-echo "Вы выбрали ДА. Выполняем действие..."
+#echo "Вы выбрали ДА. Выполняем действие..."
 
 # Common environment
 
@@ -74,7 +74,7 @@ sudo snap install typora
 
 #sudo apt-get install libreoffice-impress -y
 
-sudo apt install -y gedit
+#sudo apt install -y gedit
 
 ## Pdf search
 
@@ -93,6 +93,10 @@ sudo apt install -y pdfgrep
 ## image-magic for convert
 
 sudo apt install -y graphicsmagick-imagemagick-compat
+
+if [ -f /etc/ImageMagick-6/policy.xml ]; then
+  sudo sed -i  's|<policy domain="coder" rights="none" pattern="PDF" />|<!-- <policy domain="coder" rights="none" pattern="PDF"/> -->|' /etc/ImageMagick-6/policy.xml
+fi
 
 ## ~~curlftpfs (монтирование ftp)~~
 

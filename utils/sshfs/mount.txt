@@ -1,17 +1,17 @@
 ssh-keygen -t rsa
 
-ssh-copy-id -p2139 poltora@188.120.251.107
+ssh-copy-id -p2139 poltora@xyz
 или
-cat ~/.ssh/id_rsa.pub | ssh -p2139 poltora@188.120.251.107 "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >>  ~/.ssh/authorized_keys"
+cat ~/.ssh/id_rsa.pub | ssh -p2139 poltora@xyz "mkdir -p ~/.ssh && chmod 700 ~/.ssh && cat >>  ~/.ssh/authorized_keys"
 
 права на домашнюю папку должны быть 700 и не должно быть записи
 chmod g-w,o-w
 
 
-sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa oleg@vps.k-max.name:/sshfs/oleg/ /mnt/kramarenko -p 2512
+sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa oleg@vps.xyz:/sshfs/oleg/ /mnt/kramarenko -p 2512
 fusermount: option allow_other only allowed if 'user_allow_other' is set in /etc/fuse.conf
 
 или
 
-sudo sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa poltora@188.120.251.107:/home/poltora/ /mnt/glossary -p 2139
+sudo sshfs -o allow_other,default_permissions,IdentityFile=~/.ssh/id_rsa poltora@xyz:/home/poltora/ /mnt/glossary -p 2139
 Enter passphrase for key '/root/.ssh/id_rsa': 

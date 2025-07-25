@@ -105,7 +105,7 @@ common)
   echo "Common ENV..."
   getIfAbsentAndRun "$repoUrl" $profileLocation "install-env-common.sh"
 
-  getIfAbsentAndRun "$repoUrl" $runConfigLocation "imagemagick.sh"
+#  getIfAbsentAndRun "$repoUrl" $runConfigLocation "imagemagick.sh"
 
   backupAndSafeDownload $localConfig $remoteConfig "backintime/config"
 
@@ -125,6 +125,8 @@ common)
   backupAndSafeDownload $localConfig $remoteConfig "gigolo/bookmarks"
 
   backupAndSafeDownload $localConfig $remoteConfig "mc/hotlist"
+
+  backupAndSafeDownload "/mnt/poltora/utils" "utils" "jpgs-to-pdf-resized.sh"
 ;;
 my)
   echo "My ENV..."
