@@ -17,7 +17,10 @@ repoInit(){
         echo "Ошибка при смене папки"
         exit 1
     }
-    git checkout "$branch"
+    git checkout "$branch" || {
+      echo "Ошибка при смене ветки"
+      exit 1
+    }
     cd ../
   else
     echo "Работаем с главной веткой"
@@ -29,6 +32,16 @@ repoUpdate(){
       echo "Ошибка при смене папки"
       exit 1
   }
+  if [ "$branch" != "" ]; then
+    echo "Смена ветки на $branch"
+    git fetch
+    git checkout "$branch" || {
+      echo "Ошибка при смене ветки. Убедитесь, что ветка была запушена или репозиторий был склонирован (установлен upstream)"
+      exit 1
+    }
+  else
+    echo "Работаем с главной веткой"
+  fi
   git pull --rebase
   cd ../
 }
