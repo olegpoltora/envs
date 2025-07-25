@@ -12,7 +12,7 @@
 
 ## System
 
-#sudo apt-get install -y xubuntu-restricted-extras 
+sudo apt-get install -y xubuntu-restricted-extras 
 
 #exfat-fuse exfat-utils
 
