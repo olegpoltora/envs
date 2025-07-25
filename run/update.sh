@@ -3,9 +3,9 @@
 backup(){
   local location="$1"
   local fileName="$2"
-  local resultFile="${location}/${fileName}"
 
-  currentDate=$(date +"%Y-%m-%d %T")
+  local resultFile="${location}/${fileName}"
+  local currentDate=$(date +"%Y-%m-%d %T")
 
   if [[ -e "$resultFile" && ! -L "$resultFile" && ! -d "$resultFile" ]]; then
     echo "Бекап $resultFile..."
@@ -88,9 +88,6 @@ createFolderLinks "./config" "/home/poltora/.config"
 
 runProfile "./run/install-env-common.sh"
 
-#  getIfAbsentAndRun "$repoUrl" $profileLocation "install-env-common.sh"
-#  getIfAbsentAndRun "$repoUrl" $runConfigLocation "imagemagick.sh"
-
 case "$action" in
 my)
   echo "My ENV..."
@@ -109,19 +106,24 @@ work)
   runProfile "./run/install-env-work.sh"
 ;;
 *)
-  echo "Неизвестная команда: $action"
+  echo "Неизвестный профиль: $action"
   exit 1
 ;;
 esac
-
 }
 
-main
+help(){
+  echo ""
+  echo "git команды:"
+  echo "git status"
+  echo "git diff"
+  echo "git add ."
+  echo "git commit -m \"Сообщение коммита\""
+  echo "git push origin main"
+  echo "git push origin \"feature/xyz\""
+  echo "Config file must be changed either in repo with symlink to necessary destination, or by bash script!"
+}
 
-echo "git команды:"
-echo "git status"
-echo "git diff"
-echo "git add ."
-echo "git commit -m \"Сообщение коммита\""
-echo "git push origin main"
-echo "git push origin \"feature/xyz\""
+
+main
+help

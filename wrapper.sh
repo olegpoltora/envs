@@ -28,10 +28,13 @@ repoInit(){
 }
 
 repoUpdate(){
+  local branch=$1
+
   cd ./envs || {
       echo "Ошибка при смене папки"
       exit 1
   }
+
   if [ "$branch" != "" ]; then
     echo "Смена ветки на $branch"
     git fetch
@@ -42,6 +45,7 @@ repoUpdate(){
   else
     echo "Работаем с главной веткой"
   fi
+
   git pull --rebase
   cd ../
 }
@@ -51,7 +55,7 @@ main(){
 
   if [ -d "./envs/.git" ]; then
     echo "git репозиторий существует"
-    repoUpdate
+    repoUpdate "$branch"
   else
     echo "git репозиторий НЕ существует, инициализируем"
     repoInit "$branch"

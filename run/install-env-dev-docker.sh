@@ -1,3 +1,10 @@
+read -p "Продолжить выполнение ${BASH_SOURCE[0]}? (y/n): " answer
+if ! [[ "$answer" =~ ^[YyДд] ]]; then
+    echo "Вы выбрали НЕТ. Выход..."
+    return
+fi
+echo "Вы выбрали ДА. Выполняем действие..."
+
 # Docker at Development environment
 
 #sudo add-apt-repository universe
@@ -66,11 +73,11 @@ sudo systemctl stop docker && sudo systemctl stop docker.socket
 
 #sudo systemctl stop docker.service && sudo systemctl stop docker.socket && sudo systemctl stop containerd
 
-sudo cp /lib/systemd/system/docker.service /lib/systemd/system/docker.service.back-$(date +"%Y-%m-%d-%H-%M-%S")
+sudo cp /lib/systemd/system/docker.service /lib/systemd/system/docker.service.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
 ls -l /lib/systemd/system/|grep docker
 
-sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.back-$(date +"%Y-%m-%d-%H-%M-%S")
+sudo cp /etc/docker/daemon.json /etc/docker/daemon.json.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
 ls -l /etc/docker/|grep json
 

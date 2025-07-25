@@ -47,9 +47,9 @@ sudo apt-get install -y redis-server
 
 #tar -xzf /mnt/poltora/Soft/kafka_2.13-3.6.0.tgz --directory=/mnt/poltora/Soft/
 
-#cp /mnt/poltora/Soft/kafka_2.13-3.6.0/config/server.properties /mnt/poltora/Soft/kafka_2.13-3.6.0/config/server.properties.back-$(date +"%Y-%m-%d-%H-%M-%S")
+#cp /mnt/poltora/Soft/kafka_2.13-3.6.0/config/server.properties /mnt/poltora/Soft/kafka_2.13-3.6.0/config/server.properties.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
-#cp /mnt/poltora/Soft/kafka_2.13-3.6.0/config/zookeeper.properties /mnt/poltora/Soft/kafka_2.13-3.6.0/config/zookeeper.properties.back-$(date +"%Y-%m-%d-%H-%M-%S")
+#cp /mnt/poltora/Soft/kafka_2.13-3.6.0/config/zookeeper.properties /mnt/poltora/Soft/kafka_2.13-3.6.0/config/zookeeper.properties.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
 #echo "delete.topic.enable = true" >> /mnt/poltora/Soft/kafka_2.13-3.6.0/config/server.properties
 
@@ -80,7 +80,7 @@ sudo apt-get install -y confluent-platform
 
 
 
-#sudo cp /etc/kafka/server.properties /etc/kafka/server.properties.back-$(date +"%Y-%m-%d-%H-%M-%S")
+#sudo cp /etc/kafka/server.properties /etc/kafka/server.properties.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
 #echo "delete.topic.enable = true" >> /etc/kafka/server.properties
 
@@ -90,19 +90,21 @@ sudo apt-get install -y confluent-platform
 
 
 
-sudo cp /etc/kafka/zookeeper.properties /etc/kafka/zookeeper.properties.back-$(date +"%Y-%m-%d-%H-%M-%S")
+sudo cp /etc/kafka/zookeeper.properties /etc/kafka/zookeeper.properties.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
 sudo sed -i  's|#dataDir=/var/lib/zookeeper|dataDir=/mnt/poltora/zookeeper|' /etc/kafka/zookeeper.properties
 
 sudo sed -i  's|dataDir=/mnt/poltora/kafka|dataDir=/mnt/poltora/zookeeper|' /etc/kafka/zookeeper.properties
 
+#todo cat | grep
 sudo cat /etc/kafka/zookeeper.properties | grep -i dir
 
-sudo cp -r -p /var/lib/zookeeper /mnt/poltora/zookeeper
+if [ ! -d /mnt/poltora/zookeeper ]; then
+  sudo cp -r -p /var/lib/zookeeper /mnt/poltora/zookeeper
+fi
 
 
-
-#cp /etc/schema-registry/schema-registry.properties /etc/schema-registry/schema-registry.properties.back-$(date +"%Y-%m-%d-%H-%M-%S")
+#cp /etc/schema-registry/schema-registry.properties /etc/schema-registry/schema-registry.properties.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
 #sudo cat /etc/schema-registry/schema-registry.properties
 
@@ -110,7 +112,7 @@ sudo cp -r -p /var/lib/zookeeper /mnt/poltora/zookeeper
 
 sudo systemctl restart confluent-zookeeper
 
-sudo systemctl status confluent-zookeeper
+#sudo systemctl status confluent-zookeeper
 
 #journalctl -u confluent-zookeeper.service
 
@@ -118,7 +120,7 @@ sudo systemctl status confluent-zookeeper
 
 sudo systemctl restart confluent-server
 
-sudo systemctl status confluent-server
+#sudo systemctl status confluent-server
 
 #journalctl -u confluent-server.service
 
@@ -126,7 +128,7 @@ sudo systemctl status confluent-server
 
 sudo systemctl restart confluent-schema-registry
 
-sudo systemctl status confluent-schema-registry
+#sudo systemctl status confluent-schema-registry
 
 #journalctl -u confluent-schema-registry.service
 
@@ -158,13 +160,13 @@ sudo snap refresh --hold=forever intellij-idea-ultimate
 
 ## Common soft
 
-### encfs (asks license)
+### ~~encfs (asks license)~~
 
-sudo apt-get install -y encfs 
+#sudo apt-get install -y encfs
 
 # Configuration
 
-read -p "Now setting configuration…(Crtl-C or ENTER)"
+#read -p "Now setting configuration…(Crtl-C or ENTER)"
 
 ## postgres location
 
@@ -175,19 +177,21 @@ sudo systemctl stop postgresql
 
 sudo systemctl status postgresql
 
-sudo cp -r -p /var/lib/postgresql /mnt/poltora/postgresql
+if [ ! -d /mnt/poltora/postgresql ]; then
+  sudo cp -r -p /var/lib/postgresql /mnt/poltora/postgresql
+fi
 
-sudo cp /etc/postgresql/14/main/postgresql.conf /etc/postgresql/14/main/postgresql.conf.back-$(date +"%Y-%m-%d-%H-%M-%S")
+sudo cp /etc/postgresql/14/main/postgresql.conf /etc/postgresql/14/main/postgresql.conf.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
 cat /etc/postgresql/14/main/postgresql.conf | grep directory
 
 sudo sed -i  "s|data_directory = '/var/lib/postgresql/14/main'|data_directory = '/mnt/poltora/postgresql/14/main'|" /etc/postgresql/14/main/postgresql.conf
 
-cat /etc/postgresql/14/main/postgresql.conf | grep directory
+#cat /etc/postgresql/14/main/postgresql.conf | grep directory
 
 sudo systemctl start postgresql
 
-sudo systemctl status postgresql
+#sudo systemctl status postgresql
 
 ## Dev util
 
@@ -200,13 +204,13 @@ grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.bashrc || echo 'e
 
 ## inotify for idea
 
-read -p "Inotify for Idea…(Crtl-C or ENTER)"
+#read -p "Inotify for Idea…(Crtl-C or ENTER)"
 
-echo "fs.inotify.max_user_watches = 524288" | sudo tee /etc/sysctl.d/idea.conf
+grep -qxF 'fs.inotify.max_user_watches = 524288' /etc/sysctl.d/idea.conf || echo "fs.inotify.max_user_watches = 524288" | sudo tee -a /etc/sysctl.d/idea.conf
 
-sudo sysctl -p --system
+#sudo sysctl -p --system
 
-## encfs
+## encfs TODO
 
 mkdir /mnt/poltora/.priv
 mkdir /mnt/poltora/.priv.sec
@@ -216,42 +220,42 @@ mkdir /media/poltora/dev-backup/.priv
 mkdir /media/poltora/dev-backup/.priv.sec
 encfs /media/poltora/dev-backup/.priv.sec /media/poltora/dev-backup/.priv
 
-### create mount util
+### ~~create mount util~~
 
-tee /mnt/poltora/mount-development.sh <<mountdevelopment
-
-ls -la /mnt/poltora/.priv
-read -p "Mount main?…(y/N)" mount_main
-if [[ $mount_main == "y" ]]
-then
-	encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
-	ls -la /mnt/poltora/.priv
-fi
-
-echo ""
-ls -la /media/poltora/dev-backup/.priv
-read -p "Mount backup?…(y/N)" mount_backup
-if [[ $mount_backup == "y" ]]
-then
-	encfs /media/poltora/dev-backup/.priv.sec /media/poltora/dev-backup/.priv
-	ls -la /media/poltora/dev-backup/.priv
-fi
-
-mountdevelopment
+#tee /mnt/poltora/mount-development.sh <<mountdevelopment
+#
+#ls -la /mnt/poltora/.priv
+#read -p "Mount main?…(y/N)" mount_main
+#if [[ $mount_main == "y" ]]
+#then
+#	encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
+#	ls -la /mnt/poltora/.priv
+#fi
+#
+#echo ""
+#ls -la /media/poltora/dev-backup/.priv
+#read -p "Mount backup?…(y/N)" mount_backup
+#if [[ $mount_backup == "y" ]]
+#then
+#	encfs /media/poltora/dev-backup/.priv.sec /media/poltora/dev-backup/.priv
+#	ls -la /media/poltora/dev-backup/.priv
+#fi
+#
+#mountdevelopment
 
 ##  Maven
 
 ### Перенос репозитория в /mnt
 
-read -p "Maven repo in /mnt…(Crtl-C or ENTER)"
+#read -p "Maven repo in /mnt…(Crtl-C or ENTER)"
 
 ls -la /usr/share/maven/
 
 ls -la /etc/maven/
 
-cat /etc/maven/settings.xml 
+#cat /etc/maven/settings.xml
 
-cp ~/.m2/settings.xml ~/.m2/settings.xml.back-$(date +"%Y-%m-%d-%H-%M-%S")
+cp ~/.m2/settings.xml ~/.m2/settings.xml.backup-$(date +"%Y-%m-%d-%H-%M-%S")
 
 cp /etc/maven/settings.xml ~/.m2/settings.xml
 
@@ -259,7 +263,7 @@ ls -l ~/.m2/ | grep settings
 
 mkdir -p /mnt/poltora/.m2/repository
 
-sed -i  's|<localRepository>/path/to/local/repo</localRepository>|--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--|' /home/poltora/.m2/settings.xml
+grep -qxF '--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--' /home/poltora/.m2/settings.xml || sed -i  's|<localRepository>/path/to/local/repo</localRepository>|--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--|' /home/poltora/.m2/settings.xml
 
 du -hc --max-depth=0 /mnt/poltora/.m2/
 
