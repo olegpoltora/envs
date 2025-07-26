@@ -11,16 +11,20 @@ sudo apt install -y curl
 
 sudo apt-get install -y vsftpd
 
-sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.back-$(date +"%Y-%m-%d-%H-%M-%S")
-
-sudo sed -i  's|#write_enable=YES|write_enable=YES|' /etc/vsftpd.conf
-
-echo 'mdtm_write=YES
-' | sudo tee -a /etc/vsftpd.conf
-
-cat /etc/vsftpd.conf | grep mdtm
-
-sudo service vsftpd restart
+if [ -f /etc/vsftpd.conf ]; then
+  sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.back-$(date +"%Y-%m-%d-%H-%M-%S")
+  sudo sed -i  's|#write_enable=YES|write_enable=YES|' /etc/vsftpd.conf
+  if ! grep -q "mdtm_write=YES" "/etc/vsftpd.conf"; then
+    printf 'mdtm_write=YES\n' | sudo tee -a /etc/vsftpd.conf
+  fi
+#  if grep -q "mdtm" /etc/vsftpd.conf 2>/dev/null; then
+#      echo "Найдены строки с mdtm"
+#  else
+#      echo "Строки с mdtm не найдены"
+#  fi
+  grep --color=auto "mdtm" /etc/vsftpd.conf
+  sudo service vsftpd restart
+fi
 
 sudo service vsftpd status
 
