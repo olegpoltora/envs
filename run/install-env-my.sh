@@ -22,7 +22,7 @@
 
 # Settings
 
-read -p "Now setting configuration…(Crtl-C or ENTER)"
+#read -p "Now setting configuration…(Crtl-C or ENTER)"
 
 ## backup
 
