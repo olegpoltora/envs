@@ -29,6 +29,7 @@ fi
 
 internalLocation="/mnt/backup"
 externalLocation="/media/poltora/dev-backup"
+workLocation="/media/poltora/work-backup"
 #externalLocation="/media/poltora/backup/" TODO
 
 echo ""
