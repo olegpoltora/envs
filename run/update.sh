@@ -84,7 +84,6 @@ main(){
 read -p "Выберите профиль (my/media/dev/work): " action
 
 createFolderLinks "./utils" "/mnt/poltora/utils"
-#chmod +x /mnt/poltora/utils/*.sh 
 createFolderLinks "./config" "/home/poltora/.config"
 
 runProfile "./run/install-env-common.sh"
