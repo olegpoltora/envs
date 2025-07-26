@@ -45,8 +45,14 @@ echo "External)"
 echo "ls -la $externalLocation"
 ls -la $externalLocation
 
+# 3)
 echo ""
-read -p "Backup location? (I)nternal/(e)xternal..." LOCATION
+echo "External work)"
+echo "ls -la $workLocation"
+ls -la $workLocation
+
+echo ""
+read -p "Backup location? (I)nternal/(e)xternal/(w)ork..." LOCATION
 
 if [[ $LOCATION == '' || $LOCATION == 'I' ]]; then
 	echo "use Internal backup location"
@@ -54,6 +60,9 @@ if [[ $LOCATION == '' || $LOCATION == 'I' ]]; then
 elif [[ $LOCATION == 'e' ]]; then
 	echo "use External backup location"
 	LOCATION=$externalLocation
+elif [[ $LOCATION == 'w' ]]; then
+	echo "use External work backup location"
+	LOCATION=$workLocation
 fi
 
 echo "ls -la $LOCATION/.priv"
