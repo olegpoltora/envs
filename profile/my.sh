@@ -22,8 +22,6 @@
 
 # Settings
 
-#read -p "Now setting configuration…(Crtl-C or ENTER)"
-
 ## backup
 
 sudo mkdir /mnt/backup/
@@ -31,7 +29,6 @@ sudo chown poltora:poltora /mnt/backup/
 mkdir /mnt/backup/test
 echo "ls -la /mnt/backup"
 ls -la /mnt/backup
-#read -p "…"
 
 ## backup-priv
 
@@ -41,4 +38,3 @@ gocryptfs /mnt/backup/.priv-go.sec /backup/.priv
 
 echo "ls -la /mnt/backup/.priv"
 ls -la /mnt/backup/.priv
-#read -p "..."

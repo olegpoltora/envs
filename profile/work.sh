@@ -3,6 +3,20 @@
 #sudo add-apt-repository universe
 #sudo apt-get update
 
+## Teams - video call, desktop sharing
+
+#sudo apt-get install -y chromium-browser
+
+sudo snap install chromium
+
+## Screen recorder
+
+#sudo snap install  blue-recorder
+#sudo apt-get install -y blue-recorder
+
+sudo apt-get install -y kazam
+
+
 ## rename
 
 sudo apt install -y rename
@@ -59,8 +73,6 @@ fi
 
 # Configuration
 
-#read -p "Now setting configuration…(Crtl-C or ENTER)"
-
 ## Dev util
 
 # shellcheck disable=SC2016
@@ -73,8 +85,6 @@ sudo mkdir -p /media/poltora/work-backup/
 sudo chown poltora:poltora /media/poltora/work-backup/
 echo "ls -la /media/poltora/work-backup/"
 ls -la /media/poltora/work-backup/
-#read -p "…"
-
 
 ## backup-priv
 
@@ -85,5 +95,4 @@ gocryptfs /media/poltora/work-backup/.priv.sec /media/poltora/work-backup/.priv
 
 echo "ls -la /media/poltora/work-backup/.priv"
 ls -la /media/poltora/work-backup/.priv
-#read -p "..."
 

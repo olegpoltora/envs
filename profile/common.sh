@@ -117,11 +117,7 @@ sudo snap refresh firefox
 
 # Configuration
 
-#read -p "Now setting configuration…(Crtl-C or ENTER)"
-
 ## Common utils
-
-#read -p "Common utils…(Crtl-C or ENTER)"
 
 grep -qxF 'export PATH=$PATH:/mnt/poltora/utils/' ~/.bashrc || echo 'export PATH=$PATH:/mnt/poltora/utils/' >> ~/.bashrc
 grep -qxF 'export PATH=$PATH:/mnt/poltora/utils/' ~/.profile || echo 'export PATH=$PATH:/mnt/poltora/utils/' >> ~/.profile
@@ -137,7 +133,6 @@ sudo chown poltora:poltora /mnt/poltora/
 mkdir /mnt/poltora/test
 echo "ls -la /mnt/poltora"
 ls -la /mnt/poltora
-#read -p "…"
 
 ## backup (waiting for devices for all pc…)
 
@@ -146,7 +141,6 @@ ls -la /mnt/poltora
 #mkdir /mnt/backup/test
 #echo "ls -la /mnt/backup"
 #ls -la /mnt/backup
-#read -p "…"
 
 ## priv
 
@@ -158,6 +152,5 @@ gocryptfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
 
 echo "ls -la /mnt/poltora/.priv"
 ls -la /mnt/poltora/.priv
-#read -p "..."
 
 

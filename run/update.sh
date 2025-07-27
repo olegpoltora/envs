@@ -72,44 +72,48 @@ createFolderLinks(){
 }
 
 runProfile(){
-  local profileScriptName=$1
+  local profile=$1
+  echo "Profile $profile"
+
+  local profileScriptName="./profile/$profile.sh"
 
   source "./$profileScriptName" || {
-    echo "Ошибка выполнения $profileScriptName"
+    echo "Ошибка выполнения $profile"
     exit 1
   }
 }
 
+cleanApt(){
+  sudo apt autoremove -y
+}
+
+commonProfile(){
+  createFolderLinks "./utils" "/mnt/poltora/utils"
+  createFolderLinks "./config" "/home/poltora/.config"
+
+  runProfile "common"
+}
+
+profileList(){
+  local path=$1
+  local type=$2
+  local negativeFilter=$3
+  local joinStr=$4
+
+  local result=$(find "$path/" -maxdepth 1 -type f -name "*.$type" | sed 's|.*/||; s/\.[^.]*$//' | grep -v "$negativeFilter" | paste -sd "$4")
+  echo "$result"
+}
+
 main(){
-read -p "Выберите профиль (my/media/dev/work): " action
+#  local profilesString=$(profileList "../profile" "sh" "common" "/")
+  local profilesString=$(profileList "./profile" "sh" "common" "/")
+  read -p "Выберите профиль ($profilesString): " profile
 
-createFolderLinks "./utils" "/mnt/poltora/utils"
-createFolderLinks "./config" "/home/poltora/.config"
+  commonProfile
 
-runProfile "./run/install-env-common.sh"
+  runProfile "$profile"
 
-case "$action" in
-my)
-  echo "My ENV..."
-  runProfile "./run/install-env-my.sh"
-;;
-media)
-  echo "Media ENV..."
-  runProfile "./run/install-env-media.sh"
-;;
-dev)
-  echo "Dev ENV..."
-  runProfile "./run/install-env-dev.sh"
-;;
-work)
-  echo "Work ENV..."
-  runProfile "./run/install-env-work.sh"
-;;
-*)
-  echo "Неизвестный профиль: $action"
-  exit 1
-;;
-esac
+  cleanApt
 }
 
 help(){

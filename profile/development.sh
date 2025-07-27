@@ -7,6 +7,28 @@
 
 sudo apt-get install -y maven 
 
+### Перенос репозитория в /mnt
+
+#ls -la /usr/share/maven/
+#ls -la /etc/maven/
+#cat /etc/maven/settings.xml
+
+cp ~/.m2/settings.xml ~/.m2/settings.xml.backup-$(date +"%Y-%m-%d-%H-%M-%S")
+cp /etc/maven/settings.xml ~/.m2/settings.xml
+#ls -l ~/.m2/ | grep settings
+
+if [ ! -d /mnt/poltora/.m2 ]; then
+#  mkdir -p /mnt/poltora/.m2/repository
+  cp -r -p /home/poltora/.m2 /mnt/poltora/.m2
+fi
+
+grep -qxFe '--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--' /home/poltora/.m2/settings.xml || sed -i  's|<localRepository>/path/to/local/repo</localRepository>|--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--|' /home/poltora/.m2/settings.xml
+
+du -hc --max-depth=0 /mnt/poltora/.m2/
+
+du -hc --max-depth=0 /home/poltora/.m2/
+
+
 ## Gradle
 
 sudo apt-get install -y gradle
@@ -36,6 +58,29 @@ java -version
 ### postgresql
 
 sudo apt-get install -y postgresql
+
+## postgres location
+
+#sudo -u postgres psql
+#SHOW data_directory;
+
+sudo systemctl stop postgresql
+
+#sudo systemctl status postgresql
+
+if [ ! -d /mnt/poltora/postgresql ]; then
+  sudo cp -r -p /var/lib/postgresql /mnt/poltora/postgresql
+fi
+
+sudo cp /etc/postgresql/14/main/postgresql.conf /etc/postgresql/14/main/postgresql.conf.backup-$(date +"%Y-%m-%d-%H-%M-%S")
+
+#cat /etc/postgresql/14/main/postgresql.conf | grep directory
+sudo sed -i  "s|data_directory = '/var/lib/postgresql/14/main'|data_directory = '/mnt/poltora/postgresql/14/main'|" /etc/postgresql/14/main/postgresql.conf
+#cat /etc/postgresql/14/main/postgresql.conf | grep directory
+
+sudo systemctl start postgresql
+
+#sudo systemctl status postgresql
 
 ### redis-server
 
@@ -166,36 +211,7 @@ sudo snap refresh --hold=forever intellij-idea-ultimate
 
 # Configuration
 
-#read -p "Now setting configuration…(Crtl-C or ENTER)"
-
-## postgres location
-
-#sudo -u postgres psql
-#SHOW data_directory;
-
-sudo systemctl stop postgresql
-
-sudo systemctl status postgresql
-
-if [ ! -d /mnt/poltora/postgresql ]; then
-  sudo cp -r -p /var/lib/postgresql /mnt/poltora/postgresql
-fi
-
-sudo cp /etc/postgresql/14/main/postgresql.conf /etc/postgresql/14/main/postgresql.conf.backup-$(date +"%Y-%m-%d-%H-%M-%S")
-
-cat /etc/postgresql/14/main/postgresql.conf | grep directory
-
-sudo sed -i  "s|data_directory = '/var/lib/postgresql/14/main'|data_directory = '/mnt/poltora/postgresql/14/main'|" /etc/postgresql/14/main/postgresql.conf
-
-#cat /etc/postgresql/14/main/postgresql.conf | grep directory
-
-sudo systemctl start postgresql
-
-#sudo systemctl status postgresql
-
 ## Dev util
-
-#read -p "Dev utils…(Crtl-C or ENTER)"
 
 grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.bashrc || echo 'export PATH=$PATH:/mnt/poltora/Documents/utils/' >> ~/.bashrc
 grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.bashrc || echo 'export PATH=$PATH:/mnt/poltora/Documents/utils/' >> ~/.bashrc
@@ -204,68 +220,25 @@ grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.bashrc || echo 'e
 
 ## inotify for idea
 
-#read -p "Inotify for Idea…(Crtl-C or ENTER)"
-
 grep -qxF 'fs.inotify.max_user_watches = 524288' /etc/sysctl.d/idea.conf || echo "fs.inotify.max_user_watches = 524288" | sudo tee -a /etc/sysctl.d/idea.conf
 
 #sudo sysctl -p --system
 
 ## encfs TODO
 
-mkdir /mnt/poltora/.priv
-mkdir /mnt/poltora/.priv.sec
-encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
+if [ ! -d /mnt/poltora/.priv ]; then
+  mkdir /mnt/poltora/.priv
+fi
+if [ ! -d /mnt/poltora/.priv.sec ]; then
+  mkdir /mnt/poltora/.priv.sec
+fi
+#encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
 
-mkdir /media/poltora/dev-backup/.priv
-mkdir /media/poltora/dev-backup/.priv.sec
-encfs /media/poltora/dev-backup/.priv.sec /media/poltora/dev-backup/.priv
-
-### ~~create mount util~~
-
-#tee /mnt/poltora/mount-development.sh <<mountdevelopment
-#
-#ls -la /mnt/poltora/.priv
-#read -p "Mount main?…(y/N)" mount_main
-#if [[ $mount_main == "y" ]]
-#then
-#	encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
-#	ls -la /mnt/poltora/.priv
-#fi
-#
-#echo ""
-#ls -la /media/poltora/dev-backup/.priv
-#read -p "Mount backup?…(y/N)" mount_backup
-#if [[ $mount_backup == "y" ]]
-#then
-#	encfs /media/poltora/dev-backup/.priv.sec /media/poltora/dev-backup/.priv
-#	ls -la /media/poltora/dev-backup/.priv
-#fi
-#
-#mountdevelopment
-
-##  Maven
-
-### Перенос репозитория в /mnt
-
-#read -p "Maven repo in /mnt…(Crtl-C or ENTER)"
-
-ls -la /usr/share/maven/
-
-ls -la /etc/maven/
-
-#cat /etc/maven/settings.xml
-
-cp ~/.m2/settings.xml ~/.m2/settings.xml.backup-$(date +"%Y-%m-%d-%H-%M-%S")
-
-cp /etc/maven/settings.xml ~/.m2/settings.xml
-
-ls -l ~/.m2/ | grep settings
-
-mkdir -p /mnt/poltora/.m2/repository
-
-grep -qxF '--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--' /home/poltora/.m2/settings.xml || sed -i  's|<localRepository>/path/to/local/repo</localRepository>|--><localRepository>/mnt/poltora/.m2/repository</localRepository> <!--|' /home/poltora/.m2/settings.xml
-
-du -hc --max-depth=0 /mnt/poltora/.m2/
-
-du -hc --max-depth=0 /home/poltora/.m2/
+if [ ! -d /media/poltora/dev-backup/.priv ]; then
+  mkdir /media/poltora/dev-backup/.priv
+fi
+if [ ! -d /media/poltora/dev-backup/.priv.sec ]; then
+  mkdir /media/poltora/dev-backup/.priv.sec
+fi
+#encfs /media/poltora/dev-backup/.priv.sec /media/poltora/dev-backup/.priv
 
