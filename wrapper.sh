@@ -1,15 +1,25 @@
 #!/bin/bash
 
-repoInit(){
-  local branch=$1
-
+gitInit(){
   sudo apt-get update
   sudo apt-get install -y git
+}
 
-  git clone https://github.com/olegpoltora/envs.git || {
-      echo "Ошибка клонирования репозитория"
-      exit 1
-  }
+repoInit(){
+  local branch=$1
+  local ssh=$2
+
+  if [[ $ssh == true ]];then
+    git clone git@github.com:olegpoltora/envs.git || {
+        echo "Ошибка клонирования репозитория по ssh"
+        exit 1
+    }
+  else
+    git clone https://github.com/olegpoltora/envs.git || {
+        echo "Ошибка клонирования репозитория по https"
+        exit 1
+    }
+  fi
 
   if [ "$branch" != "" ]; then
     echo "Смена ветки на $branch"
@@ -50,15 +60,51 @@ repoUpdate(){
   cd ../
 }
 
+configSsh(){
+  source "./envs/utils/ssh-create.sh" || {
+      echo "Ошибка выполнения ./envs/utils/ssh-create.sh"
+      exit 1
+  }
+  echo "После конфигурирования ssh с github, меняем репозиторий на ssh"
+  cd ./envs || {
+      echo "Ошибка при смене папки"
+      exit 1
+  }
+
+  git remote set-url origin git@github.com:olegpoltora/envs.git
+
+  cd ../
+}
+
 main(){
   local branch=$1
 
   if [ -d "./envs/.git" ]; then
     echo "git репозиторий существует"
     repoUpdate "$branch"
+
+    if ! grep -q "github.com" "$HOME/.ssh/config"; then
+      echo "ssh не сконфигурирован с github, конфигурируем..."
+
+      configSsh
+    else
+      echo "ssh сконфинурирован с github"
+    fi
+
   else
     echo "git репозиторий НЕ существует, инициализируем"
-    repoInit "$branch"
+    gitInit
+
+    if ! grep -q "github.com" "$HOME/.ssh/config"; then
+      echo "ssh не сконфигурирован с github..."
+      echo "Сначала попытаемся забрать ./utils/ssh-create.sh по https..."
+
+      repoInit "$branch" false
+      configSsh
+    else
+      echo "ssh сконфинурирован с github"
+      repoInit "$branch" true
+    fi
   fi
 
   cd ./envs || {
