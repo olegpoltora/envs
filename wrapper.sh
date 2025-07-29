@@ -54,6 +54,11 @@ repoUpdate(){
     }
   else
     echo "Работаем с главной веткой"
+    git fetch
+    git checkout "main" || {
+      echo "Ошибка при смене ветки. Убедитесь, что ветка была запушена или репозиторий был склонирован (установлен upstream)"
+      exit 1
+    }
   fi
 
   git pull --rebase
@@ -76,6 +81,13 @@ configSsh(){
   cd ../
 }
 
+credential(){
+  git config user.email "oleg.poltoratskii@gmail.com"
+  git config user.name "Oleg Poltoratskii"
+}
+
+
+
 main(){
   local branch=$1
 
@@ -85,7 +97,6 @@ main(){
 
     if ! grep -q "github.com" "$HOME/.ssh/config"; then
       echo "ssh не сконфигурирован с github, конфигурируем..."
-
       configSsh
     else
       echo "ssh сконфинурирован с github"
@@ -106,6 +117,8 @@ main(){
       repoInit "$branch" true
     fi
   fi
+
+  credential
 
   cd ./envs || {
       echo "Ошибка при смене папки"
