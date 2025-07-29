@@ -12,7 +12,7 @@
     "blocklist-updates-enabled": true,
     "blocklist-url": "http://www.example.com/blocklist",
     "cache-size-mb": 4,
-    "compact-view": false,
+    "compact-view": true,
     "details-window-height": 557,
     "details-window-width": 700,
     "dht-enabled": true,
