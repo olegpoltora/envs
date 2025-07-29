@@ -118,12 +118,12 @@ main(){
     fi
   fi
 
-  credential
-
   cd ./envs || {
       echo "Ошибка при смене папки"
       exit 1
   }
+
+  credential
 
   source "./run/update.sh" || {
       echo "Ошибка выполнения update.sh"
