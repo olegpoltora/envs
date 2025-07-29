@@ -1,5 +1,8 @@
 #!/bin/bash
 
+projectDir=$(d=$(dirname "$(realpath "$0")"); while [[ "$d" != "/" && $(basename "$d") != "envs" ]]; do d=$(dirname "$d"); done; [[ $(basename "$d") == "envs" ]] && echo "$d" || echo "$(dirname "$(realpath "$0")")/envs")
+
+
 gitInit(){
   sudo apt-get update
   sudo apt-get install -y git
@@ -23,7 +26,7 @@ repoInit(){
 
   if [ "$branch" != "" ]; then
     echo "Смена ветки на $branch"
-    cd ./envs || {
+    cd "$projectDir" || {
         echo "Ошибка при смене папки"
         exit 1
     }
@@ -40,7 +43,7 @@ repoInit(){
 repoUpdate(){
   local branch=$1
 
-  cd ./envs || {
+  cd "$projectDir" || {
       echo "Ошибка при смене папки"
       exit 1
   }
@@ -66,12 +69,12 @@ repoUpdate(){
 }
 
 configSsh(){
-  source "./envs/utils/ssh-create.sh" || {
-      echo "Ошибка выполнения ./envs/utils/ssh-create.sh"
+  source "$projectDir/utils/ssh-create.sh" || {
+      echo "Ошибка выполнения $projectDir/utils/ssh-create.sh"
       exit 1
   }
   echo "После конфигурирования ssh с github, меняем репозиторий на ssh"
-  cd ./envs || {
+  cd "$projectDir" || {
       echo "Ошибка при смене папки"
       exit 1
   }
@@ -86,12 +89,10 @@ credential(){
   git config user.name "Oleg Poltoratskii"
 }
 
-
-
 main(){
   local branch=$1
 
-  if [ -d "./envs/.git" ]; then
+  if [ -d "$projectDir/.git" ]; then
     echo "git репозиторий существует"
     repoUpdate "$branch"
 
@@ -118,14 +119,14 @@ main(){
     fi
   fi
 
-  cd ./envs || {
+  cd "$projectDir" || {
       echo "Ошибка при смене папки"
       exit 1
   }
 
   credential
 
-  source "./run/update.sh" || {
+  source "$projectDir/run/update.sh" || {
       echo "Ошибка выполнения update.sh"
       exit 1
   }
