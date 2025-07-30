@@ -81,6 +81,7 @@ grep -qxF 'export PATH=$PATH:/mnt/poltora/Documents/utils/' ~/.profile || echo '
 
 ## backup
 
+read -p "Ensure that external drive is connected..."
 sudo mkdir -p /media/poltora/work-backup/
 sudo chown poltora:poltora /media/poltora/work-backup/
 echo "ls -la /media/poltora/work-backup/"
@@ -90,6 +91,8 @@ ls -la /media/poltora/work-backup/
 
 mkdir -p /media/poltora/work-backup/.priv
 mkdir -p /media/poltora/work-backup/.priv.sec
+echo "ls -la /media/poltora/work-backup/.priv"
+ls -la /media/poltora/work-backup/.priv
 gocryptfs -init /media/poltora/work-backup/.priv.sec
 gocryptfs /media/poltora/work-backup/.priv.sec /media/poltora/work-backup/.priv
 
