@@ -34,7 +34,7 @@ ls -la /mnt/backup
 
 mkdir /mnt/backup/.priv
 mkdir /mnt/backup/.priv-go.sec
-gocryptfs /mnt/backup/.priv-go.sec /backup/.priv
+gocryptfs /mnt/backup/.priv-go.sec /mnt/backup/.priv
 
 echo "ls -la /mnt/backup/.priv"
 ls -la /mnt/backup/.priv
