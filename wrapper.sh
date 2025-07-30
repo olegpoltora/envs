@@ -85,8 +85,22 @@ configSsh(){
 }
 
 credential(){
+  cd "$projectDir" || {
+      echo "Ошибка при смене папки"
+      exit 1
+  }
+
   git config user.email "oleg.poltoratskii@gmail.com"
   git config user.name "Oleg Poltoratskii"
+
+  cd ../
+}
+
+updateWrapper(){
+  # Копируем новый wrapper.sh во временный файл
+  # Атомарно заменяем старый wrapper.sh (mv безопасен даже при выполнении)
+  cp "$projectDir"/wrapper.sh "$projectDir"/../wrapper.sh.tmp
+  mv "$projectDir"/../wrapper.sh.tmp "$projectDir"/../wrapper.sh
 }
 
 main(){
@@ -96,6 +110,7 @@ main(){
     echo "git репозиторий существует"
     repoUpdate "$branch"
 
+    # todo проверять на наличие записей в ~/.ssh/config о репозитории
     if ! grep -q "github.com" "$HOME/.ssh/config"; then
       echo "ssh не сконфигурирован с github, конфигурируем..."
       configSsh
@@ -119,18 +134,23 @@ main(){
     fi
   fi
 
-  cd "$projectDir" || {
-      echo "Ошибка при смене папки"
-      exit 1
-  }
-
   credential
 
-  source "$projectDir/run/update.sh" || {
-      echo "Ошибка выполнения update.sh"
-      exit 1
-  }
+  updateWrapper
+}
+
+run(){
+    source "$projectDir/run/update.sh" || {
+        echo "Ошибка выполнения update.sh"
+        exit 1
+    }
 }
 
 branch=$1
+skipRun=${2:-false}
 main "$branch"
+if [[ $skipRun != "true" ]]; then
+  run
+else
+  echo "Пропускаем run"
+fi
