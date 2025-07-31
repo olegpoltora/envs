@@ -40,6 +40,32 @@ repoInit(){
   fi
 }
 
+# Функция для обработки ошибки при наличии несохранённых изменений
+handleError() {
+  echo "Сохранение локальных изменений в stash..."
+  git stash
+  if git pull --rebase; then
+    echo "Rebase выполнен успешно после сохранения изменений"
+
+    echo "Возвращаем сохранённые изменения обратно"
+    git stash pop
+
+    echo "Локальные изменения:"
+    git diff
+
+    read -p "Закомитить и пушнуть с комментарием? (y/N)" isPush
+    if [[ $isPush == "y" ]];then
+      read -p "Введите комментарий..." comment
+      git add --update
+      git commit -m "$comment"
+      git push
+    fi
+  else
+    echo "Не удалось выполнить rebase"
+    exit 1
+  fi
+}
+
 repoUpdate(){
   local branch=$1
 
@@ -64,7 +90,18 @@ repoUpdate(){
     }
   fi
 
-  git pull --rebase
+  # Проверяем, есть ли несохранённые изменения (в рабочей директории или индексе)
+  if ! git diff --quiet || ! git diff --cached --quiet; then
+    echo "Обнаружены несохранённые изменения"
+    handleError
+  else
+    echo "Нет несохранённых изменений, забираем..."
+    if ! git pull --rebase; then
+        echo "Ошибка rebase, не связанная с несохранёнными изменениями"
+        exit 1
+    fi
+    echo "Pull с rebase выполнен успешно"
+  fi
   cd ../
 }
 
@@ -82,6 +119,40 @@ configSsh(){
   git remote set-url origin git@github.com:olegpoltora/envs.git
 
   cd ../
+}
+
+function gitRepoProtocol() {
+  # Проверяем, что мы вообще в git-репозитории
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+      echo "Error: Not a git repository" >&2
+      return 1
+  fi
+
+  # Получаем URL origin
+  local repoUrl
+  repoUrl=$(git config --get remote.origin.url 2>/dev/null)
+
+  # Если нет remote origin
+  if [[ -z "$repoUrl" ]]; then
+      echo "No remote 'origin' configured" >&2
+      return 2
+  fi
+
+  # Определяем тип протокола
+  case "$repoUrl" in
+      http://*|https://*)
+          echo "https"
+          return 0
+          ;;
+      git@*|ssh://*)
+          echo "ssh"
+          return 0
+          ;;
+      *)
+          echo "unknown"
+          return 3
+          ;;
+  esac
 }
 
 credential(){
@@ -133,6 +204,11 @@ main(){
       repoInit "$branch" true
     fi
   fi
+
+#  if [[ $(gitRepoProtocol) == "https" ]]; then
+#      echo "Переключаем на SSH..."
+#      git remote set-url origin git@github.com:olegpoltora/envs.git
+#  fi
 
   credential
 
