@@ -99,7 +99,7 @@ credential(){
 updateWrapper(){
   # Копируем новый wrapper.sh во временный файл
   # Атомарно заменяем старый wrapper.sh (mv безопасен даже при выполнении)
-  cp "$projectDir"/wrapper.sh "$projectDir"/../wrapper.sh.tmp
+  cp --preserve=timestamps "$projectDir"/wrapper.sh "$projectDir"/../wrapper.sh.tmp
   mv "$projectDir"/../wrapper.sh.tmp "$projectDir"/../wrapper.sh
 }
 
