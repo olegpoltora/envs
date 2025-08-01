@@ -161,7 +161,7 @@ credential(){
       exit 1
   }
 
-  git config user.email "oleg.poltoratskii@gmail.com"
+  git config user.email "oleg@poltora.info"
   git config user.name "Oleg Poltoratskii"
 
   cd ../
