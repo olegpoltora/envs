@@ -25,7 +25,7 @@
     "incomplete-dir": "/home/poltora/\u0417\u0430\u0433\u0440\u0443\u0437\u043a\u0438",
     "incomplete-dir-enabled": false,
     "inhibit-desktop-hibernation": true,
-    "lpd-enabled": true,
+    "lpd-enabled": false,
     "main-window-height": 1030,
     "main-window-is-maximized": 0,
     "main-window-width": 958,
