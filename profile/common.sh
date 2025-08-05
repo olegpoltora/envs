@@ -154,3 +154,4 @@ echo "ls -la /mnt/poltora/.priv"
 ls -la /mnt/poltora/.priv
 
 
+sudo apt remove -y thunderbird
