@@ -179,12 +179,13 @@ profileList(){
 }
 
 main(){
+  pc=$(hostname)
   local profilesString=$(profileList "$projectDir/profile" "sh" "common" "/")
-  read -p "Выберите профиль ($profilesString): " profile
+  read -p "Продолжить с профилем $pc из существующих ($profilesString)? " profile
 
   commonProfile
 
-  runProfile "$profile"
+  runProfile "${profile:-$pc}"
 
   cleanApt
 }

@@ -47,21 +47,39 @@ handleError() {
   if git pull --rebase; then
     echo "Rebase выполнен успешно после сохранения изменений"
 
-    echo "Возвращаем сохранённые изменения обратно"
-    git stash pop
-
+    echo "Возвращаем сохранённые изменения обратно..."
+    if ! git stash pop; then
+      echo "Конфликты при восстановлении из stash! Решите их вручную:"
+      echo "1. Исправьте конфликты в файлах"
+      echo "2. Выполните 'git add .'"
+      echo "3. Завершите командой 'git rebase --continue' или откатитесь 'git rebase --abort'"
+      exit 1
+    fi
     echo "Локальные изменения:"
     git diff
 
-    read -p "Закомитить и пушнуть с комментарием? (y/N)" isPush
-    if [[ $isPush == "y" ]];then
+    read -p "Закомитить и пушнуть с комментарием или откатить? (Commit/Restore/Break - (c/r/b))" isPush
+    if [[ $isPush == "c" ]];then
       read -p "Введите комментарий..." comment
       git add --update
       git commit -m "$comment"
-      git push
+      if ! git push; then
+        echo "Ошибка при push! Проверьте доступ к репозиторию."
+        exit 1
+      fi
+      echo "Изменения успешно запушены"
+    elif [[ $isPush == "r" ]];then
+      echo "Откат изменений..."
+      git restore .
+    elif [[ $isPush == "b" ]];then
+      exit
     fi
   else
     echo "Не удалось выполнить rebase"
+    echo "1. Решите конфликты вручную"
+    echo "2. Выполните 'git add .'"
+    echo "3. Продолжите: git rebase --continue"
+    echo "4. Или откатитесь: git rebase --abort"
     exit 1
   fi
 }
