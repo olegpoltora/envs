@@ -12,18 +12,20 @@ ls -la /mnt/poltora/.priv
 read -p "Mount?…(y/N)" is_mount
 if [[ $is_mount == "y" ]]
 then
-	echo encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
-  if [[ $encryptProvider == "encfs" ]]
-  then
-  	encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
-  elif [[ $encryptProvider == "gocrypt" ]]
-  	gocrypt /mnt/poltora/.priv.sec /mnt/poltora/.priv
-  fi
+
+	if [[ $encryptProvider == "encfs" ]]; then
+		echo encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
+	    encfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
+	elif [[ $encryptProvider == "gocrypt" ]]; then
+	    echo gocryptfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
+	    gocryptfs /mnt/poltora/.priv.sec /mnt/poltora/.priv
+	fi
+
 	echo "ls -la /mnt/poltora/.priv"
 	ls -la /mnt/poltora/.priv
 	read -p "..."
-fi
 
+fi
 
 # backup
 
@@ -69,21 +71,16 @@ fi
 echo "ls -la $LOCATION/.priv"
 ls -la $LOCATION/.priv
 read -p "Mount?…(y/N)" is_mount
-if [[ $is_mount == "y" ]]
-then
-	echo encfs $LOCATION/.priv.sec $LOCATION/.priv
-  if [[ $encryptProvider == "encfs" ]]
-  then
-  	encfs $LOCATION/.priv.sec $LOCATION/.priv
-  elif [[ $encryptProvider == "gocrypt" ]]
-  	gocrypt $LOCATION/.priv.sec $LOCATION/.priv
-  fi
-
-	echo "ls -la $LOCATION/.priv"
-	ls -la $LOCATION/.priv
-	read -p "..."
-fi
-
+if [[ $is_mount == "y" ]]; then
+    if [[ $encryptProvider == "encfs" ]]; then
+	    echo encfs $LOCATION/.priv.sec $LOCATION/.priv  # <-- лишний echo
+        encfs $LOCATION/.priv.sec $LOCATION/.priv
+    elif [[ $encryptProvider == "gocrypt" ]]; then
+        echo gocryptfs $LOCATION/.priv.sec $LOCATION/.priv
+        gocryptfs $LOCATION/.priv.sec $LOCATION/.priv
+    fi
+    # отсутствует закрывающий fi для внешнего if
+fi  # <-- теперь есть, но отступы неправильные
 
 echo ""
 df -h
