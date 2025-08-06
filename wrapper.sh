@@ -4,8 +4,13 @@ projectDir=$(d=$(dirname "$(realpath "$0")"); while [[ "$d" != "/" && $(basename
 
 
 gitInit(){
-  sudo apt-get update
-  sudo apt-get install -y git
+  if command -v git &> /dev/null; then
+    echo "Git установлен"
+  else
+    echo "Git не установлен, устанавливаем..."
+    sudo apt-get update
+    sudo apt-get install -y git
+  fi
 }
 
 repoInit(){
@@ -195,6 +200,8 @@ updateWrapper(){
 main(){
   local branch=$1
 
+  gitInit
+
   if [ -d "$projectDir/.git" ]; then
     echo "git репозиторий существует"
     repoUpdate "$branch"
@@ -209,7 +216,6 @@ main(){
 
   else
     echo "git репозиторий НЕ существует, инициализируем"
-    gitInit
 
     if ! grep -q "github.com" "$HOME/.ssh/config"; then
       echo "ssh не сконфигурирован с github..."
