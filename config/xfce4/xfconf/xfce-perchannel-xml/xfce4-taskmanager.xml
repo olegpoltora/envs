@@ -13,6 +13,6 @@
     <property name="sort-id" type="uint" value="7"/>
     <property name="column-state" type="bool" value="false"/>
   </property>
-  <property name="window-width" type="int" value="2580"/>
+  <property name="window-width" type="int" value="1920"/>
   <property name="window-height" type="int" value="1008"/>
 </channel>
